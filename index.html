@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YPF 360 | Energía, soberanía y futuro</title>
+  <meta name="description" content="Presentación interactiva futurista sobre YPF, petróleo, soberanía energética, leyes, privatización, estatización y Vaca Muerta." />
+  <style>
+    :root{
+      --bg:#030712;
+      --bg2:#06162d;
+      --cyan:#00e5ff;
+      --blue:#1677ff;
+      --deep:#071b3a;
+      --yellow:#f7c948;
+      --orange:#ff8a00;
+      --green:#39ff88;
+      --white:#f8fbff;
+      --muted:#9fb6d8;
+      --panel:rgba(5, 18, 40, .72);
+      --panel2:rgba(8, 34, 72, .64);
+      --border:rgba(0,229,255,.28);
+      --shadow:0 0 35px rgba(0,229,255,.18), inset 0 0 24px rgba(22,119,255,.09);
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      width:100%;
+      min-height:100%;
+      background:radial-gradient(circle at 20% 15%, #102c66 0%, rgba(16,44,102,.2) 28%, transparent 45%),
+                 radial-gradient(circle at 80% 15%, rgba(0,229,255,.16), transparent 35%),
+                 radial-gradient(circle at 50% 100%, rgba(247,201,72,.10), transparent 40%),
+                 linear-gradient(135deg, var(--bg), #02040a 55%, #07132a);
+      color:var(--white);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow:hidden;
+    }
+
+    #particles, #energyLines{
+      position:fixed;
+      inset:0;
+      width:100vw;
+      height:100vh;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .noise{
+      position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.08;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:42px 42px;
+      mask-image:radial-gradient(circle at center, black, transparent 82%);
+      animation:gridFloat 14s linear infinite;
+    }
+
+    @keyframes gridFloat{
+      from{transform:translateY(0)}
+      to{transform:translateY(42px)}
+    }
+
+    .deck{
+      position:relative;
+      z-index:2;
+      width:100vw;
+      height:100vh;
+      overflow:hidden;
+    }
+
+    .slide{
+      position:absolute;
+      inset:0;
+      padding:clamp(22px, 4vw, 58px);
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      gap:18px;
+      opacity:0;
+      transform:translateX(80px) scale(.985);
+      pointer-events:none;
+      transition:opacity .55s ease, transform .55s ease;
+    }
+
+    .slide.active{
+      opacity:1;
+      transform:translateX(0) scale(1);
+      pointer-events:auto;
+    }
+
+    header.topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:14px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .ypf-mark{
+      width:50px; height:50px; position:relative; display:grid; place-items:center;
+      border:1px solid rgba(0,229,255,.38);
+      border-radius:16px;
+      background:linear-gradient(160deg, rgba(0,229,255,.18), rgba(247,201,72,.08));
+      box-shadow:0 0 30px rgba(0,229,255,.18);
+      overflow:hidden;
+    }
+    .ypf-mark strong{font-size:14px; color:#fff; z-index:2; text-shadow:0 0 10px var(--cyan)}
+    .ypf-mark:before,.ypf-mark:after{
+      content:""; position:absolute; inset:8px; border-radius:50%;
+      border:1px solid rgba(0,229,255,.42);
+      animation:spin 6s linear infinite;
+    }
+    .ypf-mark:after{inset:14px; border-color:rgba(247,201,72,.45); animation-duration:4s; animation-direction:reverse}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .chip{
+      border:1px solid var(--border);
+      background:rgba(0,229,255,.07);
+      padding:9px 12px;
+      border-radius:999px;
+      color:#c9f7ff;
+      font-size:12px;
+      box-shadow:0 0 18px rgba(0,229,255,.08);
+      white-space:nowrap;
+    }
+
+    .content{
+      display:grid;
+      grid-template-columns:1.03fr .97fr;
+      gap:clamp(18px,3vw,42px);
+      align-items:center;
+      min-height:0;
+    }
+
+    .content.single{
+      grid-template-columns:1fr;
+      align-items:center;
+    }
+
+    h1,h2,h3,p{margin:0}
+    h1{
+      font-size:clamp(40px, 7vw, 92px);
+      line-height:.9;
+      letter-spacing:-.07em;
+      text-wrap:balance;
+      text-shadow:0 0 24px rgba(0,229,255,.26);
+    }
+    h2{
+      font-size:clamp(32px, 5vw, 68px);
+      line-height:.94;
+      letter-spacing:-.055em;
+      text-wrap:balance;
+      text-shadow:0 0 20px rgba(22,119,255,.22);
+    }
+    h3{
+      font-size:clamp(20px, 2.3vw, 34px);
+      letter-spacing:-.03em;
+    }
+    .gradient{
+      background:linear-gradient(90deg, #fff 0%, #9ff5ff 35%, #f7c948 78%, #ff8a00);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .lead{
+      margin-top:18px;
+      color:#c8ddff;
+      font-size:clamp(17px, 2vw, 24px);
+      line-height:1.45;
+      max-width:900px;
+    }
+
+    .panel{
+      border:1px solid var(--border);
+      background:linear-gradient(160deg, var(--panel), rgba(2, 8, 22, .72));
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+      padding:clamp(18px, 2.4vw, 32px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .panel:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:linear-gradient(115deg, transparent 0%, rgba(0,229,255,.08) 22%, transparent 45%, rgba(247,201,72,.08) 72%, transparent 100%);
+      pointer-events:none;
+    }
+
+    .big-number{
+      font-size:clamp(48px, 7vw, 108px);
+      line-height:.85;
+      letter-spacing:-.07em;
+      color:#fff;
+      text-shadow:0 0 28px rgba(247,201,72,.18);
+    }
+
+    .subtitle{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:12px;
+      margin-bottom:12px;
+    }
+
+    .grid-cards{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+      margin-top:22px;
+    }
+    .grid-cards.three{grid-template-columns:repeat(3, minmax(0,1fr))}
+    .card{
+      border:1px solid rgba(0,229,255,.22);
+      background:rgba(6,24,52,.62);
+      border-radius:22px;
+      padding:18px;
+      min-height:130px;
+      cursor:pointer;
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform:translateY(-5px);
+      border-color:rgba(0,229,255,.65);
+      box-shadow:0 0 26px rgba(0,229,255,.16);
+    }
+    .card .tag{
+      color:var(--cyan);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:9px;
+    }
+    .card p{color:#d8e9ff; line-height:1.35; font-size:15px}
+    .card strong{color:white}
+
+    .orbit-wrap{
+      min-height:500px;
+      display:grid;
+      place-items:center;
+      position:relative;
+    }
+    .planet{
+      width:clamp(210px, 24vw, 340px);
+      height:clamp(210px, 24vw, 340px);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 33% 30%, rgba(255,255,255,.9), rgba(0,229,255,.35) 9%, rgba(22,119,255,.25) 26%, rgba(1,7,22,1) 68%),
+        linear-gradient(135deg, #071b3a, #000);
+      border:1px solid rgba(0,229,255,.36);
+      box-shadow:0 0 70px rgba(0,229,255,.25), inset -26px -30px 48px rgba(0,0,0,.65);
+      position:relative;
+    }
+    .planet .ypf-title{
+      font-size:clamp(38px, 5vw, 76px);
+      font-weight:900;
+      letter-spacing:-.08em;
+      text-shadow:0 0 22px rgba(255,255,255,.32);
+    }
+    .ring{
+      position:absolute;
+      width:145%;
+      height:45%;
+      border:2px solid rgba(0,229,255,.32);
+      border-radius:50%;
+      transform:rotate(-18deg);
+      box-shadow:0 0 28px rgba(0,229,255,.16);
+    }
+    .ring.r2{width:170%; height:58%; transform:rotate(28deg); border-color:rgba(247,201,72,.22)}
+    .sat{
+      position:absolute;
+      width:16px;height:16px;border-radius:50%;
+      background:var(--yellow);
+      box-shadow:0 0 18px var(--yellow);
+      animation:orbit 8s linear infinite;
+    }
+    @keyframes orbit{
+      from{transform:rotate(0deg) translateX(230px) rotate(0deg)}
+      to{transform:rotate(360deg) translateX(230px) rotate(-360deg)}
+    }
+
+    .timeline{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:12px;
+      margin-top:24px;
+    }
+    .moment{
+      border:1px solid rgba(0,229,255,.22);
+      background:rgba(0,229,255,.06);
+      border-radius:18px;
+      padding:14px;
+      cursor:pointer;
+      min-height:128px;
+      transition:.25s ease;
+    }
+    .moment:hover{transform:translateY(-5px); border-color:var(--cyan)}
+    .year{font-size:26px; font-weight:900; color:var(--yellow)}
+    .moment p{font-size:14px; color:#d9eaff; margin-top:8px}
+
+    .split-law{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:22px;
+    }
+    .law-box{
+      padding:22px;
+      border-radius:24px;
+      background:rgba(0,229,255,.06);
+      border:1px solid rgba(0,229,255,.25);
+    }
+    .law-box h3{color:#fff}
+    .law-box p{color:#cfe4ff; margin-top:10px; line-height:1.45}
+
+    .map{
+      min-height:430px;
+      border-radius:28px;
+      border:1px solid rgba(0,229,255,.24);
+      background:
+        radial-gradient(circle at 54% 33%, rgba(247,201,72,.26), transparent 18%),
+        radial-gradient(circle at 43% 42%, rgba(0,229,255,.18), transparent 14%),
+        linear-gradient(160deg, rgba(8,28,61,.74), rgba(2,8,22,.72));
+      position:relative;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    .map:before{
+      content:"";
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(30deg, transparent 47%, rgba(0,229,255,.12) 50%, transparent 53%),
+        linear-gradient(120deg, transparent 47%, rgba(0,229,255,.09) 50%, transparent 53%);
+      background-size:44px 44px;
+      opacity:.45;
+    }
+    .node{
+      position:absolute;
+      display:flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(2,8,22,.82);
+      border:1px solid rgba(0,229,255,.45);
+      box-shadow:0 0 22px rgba(0,229,255,.16);
+      color:#e9fbff;
+      font-size:13px;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+    .node:before{
+      content:""; width:9px; height:9px; border-radius:50%;
+      background:var(--cyan); box-shadow:0 0 14px var(--cyan);
+    }
+    .node:hover{transform:scale(1.08)}
+    .n1{left:48%; top:27%}
+    .n2{left:32%; top:55%}
+    .n3{left:58%; top:62%}
+    .n4{left:18%; top:72%}
+    .n5{left:63%; top:43%}
+
+    .metric-row{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top:22px;
+    }
+    .metric{
+      border:1px solid rgba(247,201,72,.24);
+      background:rgba(247,201,72,.06);
+      border-radius:22px;
+      padding:20px;
+    }
+    .metric strong{
+      font-size:clamp(28px, 4vw, 54px);
+      display:block;
+      letter-spacing:-.06em;
+      color:var(--yellow);
+    }
+    .metric span{color:#e6f5ff; font-size:14px}
+
+    .footer{
+      display:flex; align-items:center; justify-content:space-between; gap:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .progress{
+      flex:1;
+      height:6px;
+      border-radius:999px;
+      background:rgba(255,255,255,.1);
+      overflow:hidden;
+      max-width:520px;
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      border-radius:inherit;
+      background:linear-gradient(90deg, var(--cyan), var(--yellow));
+      box-shadow:0 0 16px var(--cyan);
+      transition:width .35s ease;
+    }
+
+    .controls{
+      position:fixed;
+      z-index:4;
+      right:24px;
+      bottom:24px;
+      display:flex;
+      gap:10px;
+    }
+    button{
+      color:#e9fbff;
+      background:rgba(5,18,40,.76);
+      border:1px solid rgba(0,229,255,.32);
+      border-radius:999px;
+      padding:12px 16px;
+      cursor:pointer;
+      box-shadow:0 0 22px rgba(0,229,255,.08);
+      backdrop-filter:blur(12px);
+      transition:.2s ease;
+      font-weight:700;
+    }
+    button:hover{transform:translateY(-2px); border-color:var(--cyan)}
+    .nav-rail{
+      position:fixed;
+      z-index:4;
+      left:18px;
+      top:50%;
+      transform:translateY(-50%);
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      border:1px solid rgba(0,229,255,.7);
+      background:rgba(0,229,255,.08);
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .dot.active{height:28px; border-radius:999px; background:linear-gradient(var(--cyan), var(--yellow)); box-shadow:0 0 16px rgba(0,229,255,.7)}
+
+    .modal{
+      position:fixed; inset:0; z-index:10;
+      display:none;
+      place-items:center;
+      background:rgba(0,0,0,.62);
+      backdrop-filter:blur(8px);
+      padding:22px;
+    }
+    .modal.show{display:grid}
+    .modal-box{
+      width:min(860px, 94vw);
+      max-height:86vh;
+      overflow:auto;
+      border-radius:28px;
+      border:1px solid rgba(0,229,255,.42);
+      background:linear-gradient(155deg, rgba(3,12,28,.96), rgba(8,30,66,.92));
+      box-shadow:0 0 70px rgba(0,229,255,.2);
+      padding:30px;
+      position:relative;
+    }
+    .modal-box h3{font-size:34px; margin-right:42px}
+    .modal-box p{margin-top:14px; color:#d8e9ff; line-height:1.55; font-size:17px}
+    .close{
+      position:absolute; right:18px; top:18px; width:42px; height:42px; border-radius:50%;
+      display:grid; place-items:center; padding:0;
+    }
+
+    .speaker{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      color:#fff;
+      background:linear-gradient(90deg, rgba(0,229,255,.12), rgba(247,201,72,.12));
+      border:1px solid rgba(0,229,255,.26);
+      border-radius:999px;
+      padding:9px 12px;
+      margin-bottom:16px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.11em;
+    }
+
+    .note{
+      margin-top:18px;
+      color:#a9bddc;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .kbd{
+      padding:2px 7px;
+      border:1px solid rgba(255,255,255,.22);
+      border-bottom-color:rgba(255,255,255,.38);
+      border-radius:7px;
+      color:#dff9ff;
+      background:rgba(255,255,255,.06);
+    }
+
+    .full-screen-hint{
+      position:fixed;
+      top:18px;
+      right:18px;
+      z-index:5;
+      color:#bcd4f6;
+      font-size:12px;
+      opacity:.74;
+    }
+
+    .interactive-strip{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:20px;
+    }
+    .pill{
+      border:1px solid rgba(0,229,255,.28);
+      background:rgba(0,229,255,.08);
+      padding:10px 12px;
+      border-radius:999px;
+      color:#e9fbff;
+      cursor:pointer;
+      font-size:13px;
+      transition:.2s ease;
+    }
+    .pill:hover{border-color:var(--yellow); color:#fff; transform:translateY(-2px)}
+
+    .glow-line{
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--cyan), var(--yellow), transparent);
+      opacity:.75;
+      margin:20px 0;
+    }
+
+    @media(max-width: 980px){
+      body{overflow:auto}
+      .deck{height:auto; min-height:100vh; overflow:visible}
+      .slide{position:relative; min-height:100vh; display:none; padding:24px}
+      .slide.active{display:grid}
+      .content{grid-template-columns:1fr}
+      .grid-cards,.grid-cards.three,.timeline,.metric-row,.split-law{grid-template-columns:1fr}
+      .nav-rail{display:none}
+      .orbit-wrap{min-height:320px}
+      .controls{right:12px; bottom:12px}
+      .full-screen-hint{display:none}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <canvas id="energyLines"></canvas>
+  <div class="noise"></div>
+  <div class="full-screen-hint">Tip: <span class="kbd">F</span> pantalla completa · <span class="kbd">→</span> avanzar · <span class="kbd">I</span> índice</div>
+
+  <main class="deck" id="deck">
+
+    <section class="slide active" data-speaker="Grupo 3">
+      <header class="topbar">
+        <div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Minería y Energía · Grupo 3</span></div>
+        <div class="chip">Presentación interactiva</div>
+      </header>
+      <div class="content">
+        <div>
+          <div class="speaker">Apertura</div>
+          <h1><span class="gradient">YPF 360</span><br>energía, soberanía y futuro</h1>
+          <p class="lead">Una exposición para entender por qué YPF no es solo una empresa: es una discusión sobre recursos naturales, Estado, provincias, mercado, ambiente, inversión y modelo de país.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-modal="idea">Idea fuerza</span>
+            <span class="pill" data-modal="controles">Cómo usar</span>
+            <span class="pill" data-goto="13">Ir al cierre</span>
+          </div>
+        </div>
+        <div class="orbit-wrap">
+          <div class="planet">
+            <div class="ring"></div><div class="ring r2"></div><div class="sat"></div>
+            <div class="ypf-title">YPF</div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>De la hornalla al comercio exterior</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Jonatan">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Jonatan</span></div><div class="chip">Introducción</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Jonatan</div>
+          <h2>¿Por qué <span class="gradient">YPF importa</span> hoy?</h2>
+          <p class="lead">Porque detrás de acciones cotidianas —calentar agua, prender la estufa, cargar combustible, mover una ambulancia o producir en una fábrica— aparece la misma pregunta: ¿de dónde sale la energía que mueve al país?</p>
+          <div class="grid-cards">
+            <div class="card" data-modal="cotidiano"><div class="tag">Vida diaria</div><p>La energía parece automática, pero sostiene cada actividad social y económica.</p></div>
+            <div class="card" data-modal="global"><div class="tag">Mapa global</div><p>El precio del petróleo se mueve por tensiones internacionales y redefine inversiones.</p></div>
+            <div class="card" data-modal="vaca"><div class="tag">Vaca Muerta</div><p>Una reserva estratégica que puede ubicar a Argentina como actor energético regional.</p></div>
+            <div class="card" data-modal="tension"><div class="tag">Tensión</div><p>Exportar más, abastecer el mercado interno y cuidar precios, ambiente e inversión.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Idea para decir en exposición</div>
+          <p class="lead">“Hablar de YPF no es hablar solamente de estaciones de servicio. Es hablar de soberanía energética, federalismo, recursos naturales, inversión privada, ambiente y desarrollo.”</p>
+          <div class="glow-line"></div>
+          <p class="note">Usá esta slide como entrada narrativa: baja el tema abstracto a la vida común y después lo eleva a escala mundial.</p>
+        </div>
+      </div>
+      <footer class="footer"><span>YPF como tema cotidiano y estratégico</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Jonatan">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Jonatan</span></div><div class="chip">Dominio y jurisdicción</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Jonatan</div>
+          <h2><span class="gradient">Dominio</span> vs. jurisdicción</h2>
+          <p class="lead">La clave jurídica es separar dos preguntas: quién es dueño del recurso y quién dicta las reglas para explotarlo.</p>
+          <div class="split-law">
+            <div class="law-box" data-modal="dominio"><h3>Dominio</h3><p>Responde: ¿de quién es el recurso? Tras la reforma de 1994, el art. 124 CN reconoce el dominio originario provincial.</p></div>
+            <div class="law-box" data-modal="jurisdiccion"><h3>Jurisdicción</h3><p>Responde: ¿quién regula? La Nación conserva el marco general mediante leyes como la 17.319.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Sistema de equilibrio</div>
+          <div class="big-number">124</div>
+          <p class="lead">El recurso puede estar en una provincia, pero su aprovechamiento impacta en todo el país: abastecimiento, precios, infraestructura, exportaciones y política energética.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-modal="ejemploNeuquen">Ejemplo Neuquén</span>
+            <span class="pill" data-modal="cassagne">Cassagne en simple</span>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>Recurso provincial · impacto nacional</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Mariano">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Mariano</span></div><div class="chip">Siglo XX</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Mariano</div>
+          <h2>Mosconi y la <span class="gradient">YPF fundacional</span></h2>
+          <p class="lead">La historia de YPF arranca como respuesta a una necesidad estratégica: que la energía no dependa por completo de monopolios extranjeros.</p>
+          <div class="timeline">
+            <div class="moment" data-modal="m1907"><div class="year">1907</div><p>Descubrimiento fortuito del petróleo en Argentina.</p></div>
+            <div class="moment" data-modal="m1922"><div class="year">1922</div><p>Mosconi asume como primer director de YPF.</p></div>
+            <div class="moment" data-modal="nafta"><div class="year">Nafta</div><p>Incidente que muestra vulnerabilidad estratégica.</p></div>
+            <div class="moment" data-modal="laplata"><div class="year">La Plata</div><p>Destilería y construcción de capacidad estatal.</p></div>
+            <div class="moment" data-modal="legado"><div class="year">Legado</div><p>Influencia regional: Bolivia, México y Brasil.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Frase síntesis</div>
+          <p class="lead">Mosconi no pensó el petróleo como un simple negocio, sino como defensa nacional, industrialización y soberanía.</p>
+        </div>
+      </div>
+      <footer class="footer"><span>YPF como construcción estratégica</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Mariano">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Mariano</span></div><div class="chip">Leyes petroleras</div></header>
+      <div class="content single">
+        <div>
+          <div class="speaker">Mariano</div>
+          <h2>Primeras <span class="gradient">leyes nacionales</span></h2>
+          <p class="lead">El marco legal del petróleo argentino osciló entre control estatal, apertura, federalismo y mercado.</p>
+          <div class="timeline">
+            <div class="moment" data-modal="ley12161"><div class="year">12.161</div><p>Utilidad pública, reservas fiscales y protección del recurso.</p></div>
+            <div class="moment" data-modal="ley14222"><div class="year">14.222</div><p>Inversión extranjera asociada a YPF bajo control.</p></div>
+            <div class="moment" data-modal="ley14773"><div class="year">14.773</div><p>Propiedad nacional de yacimientos y contratos de servicios.</p></div>
+            <div class="moment" data-modal="ley17319"><div class="year">17.319</div><p>Ley madre: exploración, explotación, concesiones y transporte.</p></div>
+            <div class="moment" data-modal="pendulo"><div class="year">Péndulo</div><p>Estado, mercado y federalismo como tensión constante.</p></div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>La ley como reflejo de cada modelo de país</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Ramiro Escalante">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Ramiro Escalante</span></div><div class="chip">Privatización</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Ramiro Escalante</div>
+          <h2>Privatización: <span class="gradient">crisis y reforma</span></h2>
+          <p class="lead">A fines de los 80, la crisis económica abrió la puerta a un cambio profundo: YPF pasó de Empresa del Estado a Sociedad Anónima.</p>
+          <div class="grid-cards">
+            <div class="card" data-modal="crisis89"><div class="tag">Contexto</div><p>Hiperinflación, deuda externa, recesión y Consenso de Washington.</p></div>
+            <div class="card" data-modal="problemasYPF"><div class="tag">Problemas</div><p>Endeudamiento, precios artificiales y parálisis inversora.</p></div>
+            <div class="card" data-modal="ley24145"><div class="tag">Ley 24.145</div><p>Transformación societaria y federalización de hidrocarburos.</p></div>
+            <div class="card" data-modal="repsol"><div class="tag">1999</div><p>Repsol adquiere el control y culmina la extranjerización.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Proceso visual</div>
+          <div class="big-number">1992</div>
+          <p class="lead">YPF deja de ser Empresa del Estado y se convierte en YPF Sociedad Anónima, con acciones estatales, provinciales, trabajadores e inversores privados.</p>
+        </div>
+      </div>
+      <footer class="footer"><span>De empresa estatal a sociedad anónima</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Ramiro Escalante">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Ramiro Escalante</span></div><div class="chip">Balance</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Ramiro Escalante</div>
+          <h2>Balance de la <span class="gradient">privatización</span></h2>
+          <p class="lead">La privatización tuvo efectos de modernización y rentabilidad, pero también consecuencias estructurales: caída de exploración, agotamiento de reservas y pérdida del autoabastecimiento.</p>
+          <div class="metric-row">
+            <div class="metric"><strong>+</strong><span>Modernización tecnológica y eficiencia empresarial.</span></div>
+            <div class="metric"><strong>$</strong><span>Ingreso de divisas y alivio fiscal inmediato.</span></div>
+            <div class="metric"><strong>!</strong><span>Menor exploración y crisis social en zonas petroleras.</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Idea crítica</div>
+          <p class="lead">La eficiencia financiera de corto plazo puede debilitar la seguridad energética si no se sostiene con inversión estratégica de largo plazo.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-modal="piqueteros">Impacto social</span>
+            <span class="pill" data-modal="reservas">Reservas</span>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>Modernización con costo estratégico</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Gustavo Ordoqui Méndez">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Gustavo Ordoqui Méndez</span></div><div class="chip">Estatización</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Gustavo Ordoqui Méndez</div>
+          <h2>Estatización 2012: <span class="gradient">recuperar control</span></h2>
+          <p class="lead">La decisión estatal se explica por el deterioro del autoabastecimiento, el déficit energético y una política empresaria de sobreexplotación y subexploración.</p>
+          <div class="grid-cards">
+            <div class="card" data-modal="deficit2011"><div class="tag">2011</div><p>Argentina vuelve a importar más energía de la que exporta.</p></div>
+            <div class="card" data-modal="repsolModelo"><div class="tag">Modelo Repsol</div><p>Dividendos altos, menor exploración y caída de reservas.</p></div>
+            <div class="card" data-modal="decreto530"><div class="tag">Decreto 530</div><p>Intervención previa de YPF por urgencia del caso.</p></div>
+            <div class="card" data-modal="ley26741"><div class="tag">Ley 26.741</div><p>Interés público y expropiación del 51%.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Cadena constitucional</div>
+          <div class="big-number">17 · 75 · 124</div>
+          <p class="lead">Expropiación por utilidad pública, cláusulas de progreso y dominio provincial de recursos naturales.</p>
+        </div>
+      </div>
+      <footer class="footer"><span>Expropiación con fundamento constitucional</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Gustavo Ordoqui Méndez">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Gustavo Ordoqui Méndez</span></div><div class="chip">Derecho público y litigio</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Gustavo Ordoqui Méndez</div>
+          <h2>Expropiación, federalismo y <span class="gradient">litigio internacional</span></h2>
+          <p class="lead">La estatización no fue confiscación: siguió un procedimiento expropiatorio con indemnización, reparto entre Nación y provincias, y debate internacional.</p>
+          <div class="split-law">
+            <div class="law-box" data-modal="expropiacion"><h3>Expropiación</h3><p>Utilidad pública, indemnización y procedimiento reglado. No es apropiación sin compensación.</p></div>
+            <div class="law-box" data-modal="federalismo"><h3>Federalismo</h3><p>Nación y provincias productoras comparten acciones, pero la conducción estratégica se centraliza.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Caso Burford/Petersen</div>
+          <p class="lead">La tensión central fue si el derecho público expropiatorio soberano podía quedar condicionado por cláusulas societarias privadas.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-modal="burford">Abrir explicación</span>
+            <span class="pill" data-modal="empresaTestigo">Empresa testigo</span>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>Derecho público soberano vs. reglas societarias</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Renata y Ana">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Renata y Ana</span></div><div class="chip">Técnica petrolera</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Renata y Ana</div>
+          <h2>Convencional vs. <span class="gradient">no convencional</span></h2>
+          <p class="lead">La diferencia no es solo técnica: cambia la escala de inversión, la infraestructura, los riesgos y la forma de organizar el desarrollo energético.</p>
+          <div class="split-law">
+            <div class="law-box" data-modal="convencional"><h3>Convencional</h3><p>El petróleo migró a una roca reservorio porosa y permeable. Puede fluir por presión o bombeo.</p></div>
+            <div class="law-box" data-modal="noconvencional"><h3>No convencional</h3><p>El shale queda atrapado en la roca madre. Requiere perforación horizontal y fractura hidráulica.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Comparación para exponer</div>
+          <div class="grid-cards">
+            <div class="card" data-modal="permeabilidad"><div class="tag">Permeabilidad</div><p>Convencional: alta/media. Shale: casi nula.</p></div>
+            <div class="card" data-modal="pozo"><div class="tag">Pozo</div><p>Convencional: vertical. Shale: vertical + horizontal.</p></div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>La geología define la ingeniería</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Renata y Ana">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Renata y Ana</span></div><div class="chip">Vaca Muerta</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Renata y Ana</div>
+          <h2>Vaca Muerta: <span class="gradient">salto tecnológico</span></h2>
+          <p class="lead">El shale exige una ingeniería de alta precisión: perforación profunda, curva horizontal, punzado, fracking y flowback.</p>
+          <div class="timeline">
+            <div class="moment" data-modal="vertical"><div class="year">1</div><p>Perforación vertical profunda y aislamiento.</p></div>
+            <div class="moment" data-modal="horizontal"><div class="year">2</div><p>Curva de 90° y rama horizontal.</p></div>
+            <div class="moment" data-modal="punzado"><div class="year">3</div><p>Punzado de cañería y cemento.</p></div>
+            <div class="moment" data-modal="fracking"><div class="year">4</div><p>Fractura hidráulica con agua, arena y aditivos.</p></div>
+            <div class="moment" data-modal="flowback"><div class="year">5</div><p>Retorno de fluidos y producción continua.</p></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Imagen mental</div>
+          <p class="lead">No se “chupa” petróleo de un lago subterráneo: se abre una red artificial de microfisuras para liberar hidrocarburos atrapados en roca compacta.</p>
+        </div>
+      </div>
+      <footer class="footer"><span>Del subsuelo compacto a la exportación</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Renata y Ana">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Renata y Ana</span></div><div class="chip">Mapa energético</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Renata y Ana</div>
+          <h2>El mapa energético <span class="gradient">argentino</span></h2>
+          <p class="lead">Vaca Muerta concentra el boom, pero Argentina tiene una infraestructura histórica de cuencas convencionales que siguen siendo relevantes.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-modal="golfo">Golfo San Jorge</span>
+            <span class="pill" data-modal="austral">Austral</span>
+            <span class="pill" data-modal="cuyana">Cuyana</span>
+            <span class="pill" data-modal="noroeste">Noroeste</span>
+            <span class="pill" data-modal="neuquina">Neuquina</span>
+          </div>
+        </div>
+        <div class="map">
+          <div class="node n1" data-modal="neuquina">Cuenca Neuquina</div>
+          <div class="node n2" data-modal="cuyana">Cuyana</div>
+          <div class="node n3" data-modal="golfo">Golfo San Jorge</div>
+          <div class="node n4" data-modal="austral">Austral</div>
+          <div class="node n5" data-modal="noroeste">Noroeste</div>
+        </div>
+      </div>
+      <footer class="footer"><span>Vaca Muerta no agota el mapa</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Grupo 3">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Presente y futuro</span></div><div class="chip">RIGI · RIMI · exportación</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Presente y futuro</div>
+          <h2>Vaca Muerta, RIGI y <span class="gradient">escala global</span></h2>
+          <p class="lead">El presente se juega en atraer inversiones, construir infraestructura y transformar el recurso en producción, exportaciones y desarrollo de la cadena nacional.</p>
+          <div class="metric-row">
+            <div class="metric" data-modal="lll"><strong>1.152</strong><span>pozos proyectados en LLL Oil.</span></div>
+            <div class="metric" data-modal="barriles"><strong>240k</strong><span>barriles diarios proyectados hacia 2032.</span></div>
+            <div class="metric" data-modal="exportaciones"><strong>6.000M</strong><span>USD anuales estimados de exportación.</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Tensión actual</div>
+          <p class="lead">La pregunta no es solo cómo atraer inversión, sino cómo lograr que esa inversión genere infraestructura, empleo, proveedores locales y reinversión estratégica.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-modal="rigi">RIGI</span>
+            <span class="pill" data-modal="rimi">RIMI</span>
+            <span class="pill" data-modal="proveedores">20% proveedores locales</span>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>Inversión, divisas y cadena de valor</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+    <section class="slide" data-speaker="Grupo 3">
+      <header class="topbar"><div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Cierre</span></div><div class="chip">Decisión de país</div></header>
+      <div class="content">
+        <div>
+          <div class="speaker">Cierre grupal</div>
+          <h2>La energía como <span class="gradient">decisión de país</span></h2>
+          <p class="lead">YPF resume una tensión histórica: Estado, provincias, empresas, mercado, ambiente e inversión. La soberanía energética no es una abstracción: define si importamos energía o la exportamos; si dependemos de otros o ganamos autonomía estratégica.</p>
+          <div class="interactive-strip">
+            <span class="pill" data-goto="0">Volver al inicio</span>
+            <span class="pill" data-goto="2">Dominio y jurisdicción</span>
+            <span class="pill" data-goto="12">RIGI y futuro</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="subtitle">Frase final</div>
+          <p class="lead">“No se trata solo de extraer petróleo. Se trata de decidir qué modelo de país se construye a partir de nuestros recursos.”</p>
+          <div class="glow-line"></div>
+          <p class="note">Cierre recomendado: mirar al público, pausar dos segundos y cerrar con esta frase. No seguir agregando datos.</p>
+        </div>
+      </div>
+      <footer class="footer"><span>Grupo 3 · YPF 360</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
+  </main>
+
+  <div class="nav-rail" id="navRail"></div>
+  <div class="controls">
+    <button id="prevBtn">←</button>
+    <button id="indexBtn">Índice</button>
+    <button id="nextBtn">→</button>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="close" id="closeModal">×</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <script>
+    const modalData = {
+      idea:["Idea fuerza","YPF funciona como hilo conductor de toda la exposición: permite hablar de energía, soberanía, leyes, provincias, inversión, mercado internacional, ambiente y futuro productivo."],
+      controles:["Controles","Usá las flechas del teclado para avanzar o retroceder. Tocá las tarjetas para abrir información. Presioná F para pantalla completa. Presioná I para volver al índice/inicio."],
+      cotidiano:["Vida diaria","La energía está detrás de acciones simples: cocinar, calefaccionar, viajar, producir, transportar y atender emergencias. Ese arranque ayuda a que el público entienda que el tema no es abstracto."],
+      global:["Mapa global","El petróleo no se define solo localmente. Conflictos internacionales, rutas estratégicas y precios globales pueden impactar en inversiones, combustibles, inflación y comercio exterior."],
+      vaca:["Vaca Muerta","Vaca Muerta aparece como una reserva estratégica porque puede convertir a Argentina en un actor relevante del mercado energético regional, siempre que existan inversión, infraestructura y reglas estables."],
+      tension:["Tensión actual","El desafío es equilibrar exportaciones, divisas e inversión con abastecimiento interno, precios razonables, cuidado ambiental y desarrollo de proveedores nacionales."],
+      dominio:["Dominio","El dominio contesta quién es titular del recurso. Desde la reforma constitucional de 1994, el art. 124 CN reconoce a las provincias el dominio originario de los recursos naturales existentes en su territorio."],
+      jurisdiccion:["Jurisdicción","La jurisdicción contesta quién puede dictar reglas jurídicas sobre la actividad. La Nación conserva potestades para establecer un marco general, especialmente por la Ley 17.319 de Hidrocarburos."],
+      ejemploNeuquen:["Ejemplo Neuquén","Si aparece un yacimiento en Neuquén, la provincia reclama dominio, regalías y control local. Pero la Nación interviene porque ese gas o petróleo impacta en abastecimiento, exportaciones, divisas e infraestructura nacional."],
+      cassagne:["Cassagne en simple","Dominio y jurisdicción no son idénticos. Puede haber titularidad provincial del recurso, pero reglas nacionales para ordenar una actividad que excede lo puramente local."],
+      m1907:["1907","El petróleo se descubre en Argentina de manera fortuita, durante tareas vinculadas a la búsqueda de agua. Ese hecho abre una historia estratégica para el país."],
+      m1922:["1922","Enrique Mosconi asume como primer director de YPF. Su conducción combina visión técnica, disciplina organizativa y una idea fuerte: energía como soberanía."],
+      nafta:["Incidente de la nafta","La negativa de una empresa extranjera a abastecer combustible al Ejército si no se pagaba por adelantado mostró la vulnerabilidad del país frente a monopolios privados."],
+      laplata:["Destilería de La Plata","La construcción de capacidad industrial fue una pieza central: no bastaba con tener petróleo, había que poder refinar, distribuir y sostener una política energética."],
+      legado:["Legado regional","Las ideas de Mosconi influyeron en modelos petroleros de América Latina, como Bolivia, México y Brasil, donde también se pensó la energía como recurso estratégico."],
+      ley12161:["Ley 12.161","Primera ley orgánica del sector. Declaró utilidad pública, promovió reservas fiscales y buscó proteger el recurso bajo una mirada de control estatal."],
+      ley14222:["Ley 14.222","Abrió la posibilidad de inversión extranjera asociada a YPF en un contexto de necesidad de capitales y crisis de divisas."],
+      ley14773:["Ley 14.773","Durante el frondizismo declaró la propiedad nacional de los yacimientos y permitió contratos de servicios con privados, entregando el petróleo a YPF."],
+      ley17319:["Ley 17.319","Es la ley madre de hidrocarburos. Regula permisos de exploración, concesiones de explotación, transporte, plazos y obligaciones de las empresas."],
+      pendulo:["El péndulo normativo","La legislación petrolera argentina se movió entre modelos: control estatal fuerte, apertura al capital privado, federalización y desregulación."],
+      crisis89:["Crisis 1989-1992","Hiperinflación, recesión, endeudamiento y necesidad de divisas generaron el clima político-económico para impulsar privatizaciones y desregulación."],
+      problemasYPF:["Problemas de YPF antes de privatizar","Se señalaban endeudamiento, precios de combustibles fijados por el Estado, compra de insumos en condiciones desfavorables y falta de capital para exploración."],
+      ley24145:["Ley 24.145","Transformó YPF en Sociedad Anónima, estructuró clases de acciones y federalizó hidrocarburos para obtener consenso de las provincias productoras."],
+      repsol:["Entrada de Repsol","En 1999 Repsol adquirió el control mayoritario de YPF, completando la extranjerización de la conducción empresaria."],
+      piqueteros:["Impacto social","La reestructuración y reducción de personal afectó fuertemente a localidades petroleras como Cutral Có, Plaza Huincul y Tartagal, vinculándose al origen de protestas piqueteras."],
+      reservas:["Reservas y exploración","El balance crítico sostiene que la maximización de utilidades de corto plazo redujo la inversión exploratoria y afectó el autoabastecimiento."],
+      deficit2011:["Déficit energético 2011","Argentina vuelve a importar más energía de la que exporta. El déficit energético se convierte en argumento central para recuperar control estatal."],
+      repsolModelo:["Sobreexplotación y subexploración","La crítica al modelo Repsol fue que extraía recursos existentes y distribuía dividendos elevados, sin reponer reservas mediante exploración suficiente."],
+      decreto530:["Decreto 530/2012","Dispuso la intervención previa de YPF antes de la ley expropiatoria. Fue discutido, pero luego recibió respaldo legislativo."],
+      ley26741:["Ley 26.741","Declaró de interés público nacional el autoabastecimiento energético y habilitó la expropiación del 51% de YPF."],
+      expropiacion:["Expropiación vs. confiscación","La expropiación implica utilidad pública, ley e indemnización. La confiscación es apropiación sin compensación y está prohibida por el art. 17 CN."],
+      federalismo:["Federalismo de concertación","El 51% expropiado se repartió entre Nación y provincias productoras. La propiedad se comparte, pero la conducción estratégica se centraliza."],
+      burford:["Caso Burford/Petersen","El conflicto giró sobre si Argentina debía lanzar una OPA por cláusulas estatutarias. El argumento defensivo destaca que el derecho público expropiatorio desplaza reglas privadas societarias."],
+      empresaTestigo:["Empresa testigo","YPF puede funcionar como referencia del mercado: influye en precios, inversión, abastecimiento e infraestructura, sin dejar de operar como sociedad anónima."],
+      convencional:["Explotación convencional","El hidrocarburo migró desde la roca madre hacia una roca reservorio porosa y permeable. La extracción puede darse por presión natural, bombeo o recuperación secundaria/terciaria."],
+      noconvencional:["Explotación no convencional","El hidrocarburo queda atrapado en la roca madre compacta. Para liberarlo se usa perforación horizontal y fractura hidráulica."],
+      permeabilidad:["Permeabilidad","En yacimientos convencionales los poros están conectados y el fluido se mueve. En shale, la roca es tan compacta que se necesita crear permeabilidad artificial."],
+      pozo:["Tipo de pozo","El convencional suele ser vertical. El no convencional baja verticalmente y luego avanza horizontalmente miles de metros dentro de la formación."],
+      vertical:["Etapa 1","Perforación vertical profunda hasta alcanzar la formación, con cañerías y cemento para aislar el pozo y proteger acuíferos."],
+      horizontal:["Etapa 2","La perforación curva 90 grados y avanza horizontalmente por la roca madre para maximizar el contacto con el shale."],
+      punzado:["Etapa 3","Se realizan pequeñas perforaciones controladas en cañería y cemento para conectar el pozo con la roca exterior."],
+      fracking:["Etapa 4","Se inyecta fluido a alta presión, compuesto principalmente por agua y arena, con baja proporción de aditivos, para abrir microfisuras."],
+      flowback:["Etapa 5","Tras la fractura, retorna parte del fluido y luego comienzan a fluir petróleo y gas por la red de microfisuras sostenidas por arena."],
+      golfo:["Cuenca Golfo San Jorge","Ubicada en Chubut y Santa Cruz. Es una cuenca convencional madura, con fuerte uso de recuperación secundaria y terciaria."],
+      austral:["Cuenca Austral","Incluye Santa Cruz, Tierra del Fuego y Mar Argentino. Predomina la explotación convencional, incluso en desarrollos offshore."],
+      cuyana:["Cuenca Cuyana","Mendoza. Convencional histórica, con crudos más densos y explotación mediante bombeo mecánico."],
+      noroeste:["Cuenca Noroeste","Salta y Jujuy. Convencional profunda y madura, con producción en declive natural."],
+      neuquina:["Cuenca Neuquina","Es el gran caso mixto: conviven yacimientos convencionales con el desarrollo no convencional de Vaca Muerta."],
+      lll:["Proyecto LLL Oil","Proyecto presentado bajo RIGI, orientado a escala exportadora, con perforación masiva y producción proyectada hacia 2032."],
+      barriles:["Producción proyectada","La meta expuesta es alcanzar 240.000 barriles diarios hacia 2032, destinados a exportación."],
+      exportaciones:["Exportaciones proyectadas","El objetivo estimado es generar alrededor de 6.000 millones de dólares anuales en exportaciones."],
+      rigi:["RIGI","Régimen de Incentivo para Grandes Inversiones: incentivos tributarios, aduaneros, cambiarios y estabilidad normativa para proyectos de gran escala."],
+      rimi:["RIMI","Régimen pensado para medianas inversiones, orientado a que pymes de la cadena de valor puedan modernizarse y acompañar la escala productiva."],
+      proveedores:["Proveedores locales","El esquema busca que parte de la inversión impacte en la industria nacional mediante contratación de proveedores locales cuando exista oferta y precio competitivo."]
+    };
+
+    const slides = [...document.querySelectorAll('.slide')];
+    const bars = [...document.querySelectorAll('.bar')];
+    const counts = [...document.querySelectorAll('.count')];
+    const navRail = document.getElementById('navRail');
+    let current = 0;
+
+    slides.forEach((_, i)=>{
+      const d = document.createElement('div');
+      d.className = 'dot' + (i===0 ? ' active' : '');
+      d.title = `Slide ${i+1}`;
+      d.addEventListener('click', ()=>go(i));
+      navRail.appendChild(d);
+    });
+
+    function update(){
+      slides.forEach((s,i)=>s.classList.toggle('active', i===current));
+      [...document.querySelectorAll('.dot')].forEach((d,i)=>d.classList.toggle('active', i===current));
+      bars.forEach(b=> b.style.width = `${((current+1)/slides.length)*100}%`);
+      counts.forEach(c=> c.textContent = `${current+1}/${slides.length}`);
+    }
+
+    function go(i){
+      current = Math.max(0, Math.min(slides.length-1, i));
+      update();
+    }
+    function next(){ go(current+1); }
+    function prev(){ go(current-1); }
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('indexBtn').addEventListener('click', ()=>go(0));
+
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') next();
+      if(e.key === 'ArrowLeft' || e.key === 'PageUp') prev();
+      if(e.key.toLowerCase() === 'i') go(0);
+      if(e.key.toLowerCase() === 'f') toggleFull();
+      if(e.key === 'Escape') closeModal();
+    });
+
+    function toggleFull(){
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalText = document.getElementById('modalText');
+    function openModal(key){
+      const data = modalData[key];
+      if(!data) return;
+      modalTitle.textContent = data[0];
+      modalText.textContent = data[1];
+      modal.classList.add('show');
+    }
+    function closeModal(){ modal.classList.remove('show'); }
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
+
+    document.addEventListener('click', e=>{
+      const modalTarget = e.target.closest('[data-modal]');
+      if(modalTarget) openModal(modalTarget.dataset.modal);
+      const gotoTarget = e.target.closest('[data-goto]');
+      if(gotoTarget) go(Number(gotoTarget.dataset.goto));
+    });
+
+    update();
+
+    // Partículas de fondo
+    const c = document.getElementById('particles');
+    const ctx = c.getContext('2d');
+    const l = document.getElementById('energyLines');
+    const ltx = l.getContext('2d');
+    let w,h,particles;
+
+    function resize(){
+      w = c.width = l.width = window.innerWidth;
+      h = c.height = l.height = window.innerHeight;
+      particles = Array.from({length: Math.min(120, Math.floor(w*h/14000))}, ()=>({
+        x:Math.random()*w, y:Math.random()*h,
+        r:Math.random()*1.8+.4,
+        vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
+        a:Math.random()*0.7+0.2
+      }));
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function drawParticles(){
+      ctx.clearRect(0,0,w,h);
+      for(const p of particles){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0) p.x=w; if(p.x>w) p.x=0; if(p.y<0) p.y=h; if(p.y>h) p.y=0;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(140,240,255,${p.a})`;
+        ctx.fill();
+      }
+
+      // conexiones cercanas
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          const a=particles[i], b=particles[j];
+          const dx=a.x-b.x, dy=a.y-b.y, dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<105){
+            ctx.strokeStyle=`rgba(0,229,255,${(1-dist/105)*.12})`;
+            ctx.lineWidth=1;
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          }
+        }
+      }
+    }
+
+    let t=0;
+    function drawEnergy(){
+      t += 0.008;
+      ltx.clearRect(0,0,w,h);
+      for(let k=0;k<5;k++){
+        ltx.beginPath();
+        const yBase = h*(.18 + k*.16);
+        for(let x=0;x<w;x+=18){
+          const y = yBase + Math.sin(x*.008 + t*4 + k)*18 + Math.cos(x*.018 + t*2)*7;
+          if(x===0) ltx.moveTo(x,y); else ltx.lineTo(x,y);
+        }
+        const grad = ltx.createLinearGradient(0,0,w,0);
+        grad.addColorStop(0,'rgba(0,229,255,0)');
+        grad.addColorStop(.5, k%2 ? 'rgba(247,201,72,.13)' : 'rgba(0,229,255,.15)');
+        grad.addColorStop(1,'rgba(0,229,255,0)');
+        ltx.strokeStyle=grad;
+        ltx.lineWidth=1.2;
+        ltx.stroke();
+      }
+    }
+
+    function animate(){
+      drawParticles();
+      drawEnergy();
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
