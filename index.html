@@ -554,6 +554,107 @@
       .controls{right:12px; bottom:12px}
       .full-screen-hint{display:none}
     }
+  
+    .photo-slide-wrap{
+      display:grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap:clamp(18px,3vw,38px);
+      align-items:center;
+      min-height:0;
+    }
+    .photo-frame{
+      border:1px solid rgba(0,229,255,.30);
+      background:linear-gradient(160deg, rgba(5,18,40,.72), rgba(2,8,22,.78));
+      border-radius:30px;
+      padding:14px;
+      box-shadow:0 0 35px rgba(0,229,255,.16), inset 0 0 18px rgba(22,119,255,.08);
+      backdrop-filter:blur(14px);
+      position:relative;
+      overflow:hidden;
+    }
+    .photo-frame:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background:linear-gradient(120deg, transparent 0%, rgba(0,229,255,.08) 30%, transparent 52%, rgba(247,201,72,.08) 78%, transparent 100%);
+      pointer-events:none;
+    }
+    .photo-frame img{
+      width:100%;
+      max-height:68vh;
+      object-fit:cover;
+      display:block;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .closing-panel{
+      border:1px solid rgba(0,229,255,.26);
+      background:linear-gradient(160deg, rgba(5,18,40,.60), rgba(2,8,22,.72));
+      border-radius:28px;
+      padding:24px;
+      box-shadow:0 0 28px rgba(0,229,255,.12);
+    }
+    .closing-panel .lead{
+      margin-top:0;
+      font-size:clamp(15px,1.45vw,18px);
+      line-height:1.58;
+      max-width:none;
+    }
+    .closing-panel p + p{
+      margin-top:14px;
+    }
+    .quote-box{
+      border:1px solid rgba(247,201,72,.24);
+      background:rgba(247,201,72,.05);
+      border-radius:24px;
+      padding:18px 20px;
+      margin-top:18px;
+    }
+    .quote-box p{
+      color:#f7fbff;
+      font-size:clamp(16px,1.7vw,24px);
+      line-height:1.45;
+      font-style:italic;
+      margin:0;
+    }
+    .credit-note{
+      margin-top:14px;
+      color:#b7cae6;
+      font-size:14px;
+      line-height:1.45;
+    }
+    .cow-memento{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-top:18px;
+      padding:12px 14px;
+      border:1px dashed rgba(255,255,255,.22);
+      border-radius:20px;
+      background:rgba(255,255,255,.03);
+      width:fit-content;
+      max-width:100%;
+    }
+    .cow-memento img{
+      width:86px;
+      height:86px;
+      object-fit:cover;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:#fff;
+      flex:0 0 auto;
+    }
+    .cow-memento span{
+      color:#dce9ff;
+      font-size:14px;
+      line-height:1.4;
+      max-width:250px;
+    }
+    @media(max-width: 980px){
+      .photo-slide-wrap{grid-template-columns:1fr}
+      .photo-frame img{max-height:none}
+      .closing-panel .lead{font-size:16px}
+    }
+
   </style>
 </head>
 <body>
@@ -897,7 +998,40 @@
       <footer class="footer"><span>Grupo 3 · YPF 360</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
     </section>
 
+
+    <section class="slide" data-speaker="Grupo 3">
+      <header class="topbar">
+        <div class="brand"><div class="ypf-mark"><strong>YPF</strong></div><span>Cierre final</span></div>
+        <div class="chip">Foto grupal</div>
+      </header>
+      <div class="photo-slide-wrap">
+        <div class="photo-frame">
+          <img src="foto_final_grupo.jpg" alt="Foto grupal del equipo de exposición junto a la maqueta del proyecto" />
+        </div>
+        <div class="closing-panel">
+          <div class="speaker">Grupo 3</div>
+          <p class="lead">Mas alla del contenido juridico, energetico y economico, que se abordo en este trabajo, la realizacion de esta exposicion, nos dejo una experiencia humana y academica muy valiosa, dado que muchos no nos conociamos previamente, y aun asi se genero una excelente interaccion, bajo un manto de compañerismo y un espiritu de cooperacion.</p>
+          <p class="lead">El trabajo no fue solamente cumplir con una consigna academica: tambien fue compartir ideas, organizarnos, escucharnos, aportar desde distintos lugares y, sobre todo, disfrutar el proceso. En ese camino se reflejo una frase atribuida a Truman que resume muy bien lo que vivimos como grupo:</p>
+          <div class="quote-box">
+            <p>“Es increible lo que se puede lograr cuando no importa quien se lleva el credito”.</p>
+          </div>
+          <p class="lead">Ese fue, en definitiva, el espiritu que mantuvimos durante todo el proyecto: trabajar en conjunto, sumar cada uno desde su lugar y entender que el resultado final vale mas cuando se construye entre todos.</p>
+          <div class="cow-memento">
+            <img src="vaca_tumbada.jpg" alt="Figura de una vaca tumbada, guiño al inicio de la aventura grupal con Vaca Muerta" />
+            <span>Un pequeño guiño al chiste con el que empezo esta aventura grupal: nuestra “vaca muerta”.</span>
+          </div>
+          <p class="credit-note">Gracias por acompañarnos. Grupo 3 · YPF 360</p>
+          <div class="interactive-strip">
+            <span class="pill" data-goto="0">Volver al inicio</span>
+            <span class="pill" data-goto="13">Ir al cierre conceptual</span>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"><span>Trabajo en equipo · compañerismo · construccion colectiva</span><div class="progress"><div class="bar"></div></div><span class="count"></span></footer>
+    </section>
+
   </main>
+
 
   <div class="nav-rail" id="navRail"></div>
   <div class="controls">
