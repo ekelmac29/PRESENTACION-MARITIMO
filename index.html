@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drones y Derecho Aeronáutico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #061421;
+      --bg2: #082033;
+      --panel: rgba(255,255,255,.08);
+      --panel2: rgba(255,255,255,.13);
+      --text: #f4f8fb;
+      --muted: #b8c7d4;
+      --cyan: #21d4fd;
+      --blue: #0aa5ff;
+      --yellow: #ffd166;
+      --orange: #ff9f1c;
+      --red: #ef476f;
+      --green: #33d17a;
+      --shadow: 0 28px 80px rgba(0,0,0,.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(33,212,253,.18), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(255,209,102,.12), transparent 25%),
+        linear-gradient(135deg, #04101b 0%, #061421 42%, #0a263c 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .26;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+    }
+    .deck { width: 100vw; height: 100vh; position: relative; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 58px 72px 54px;
+      display: none;
+      overflow: hidden;
+    }
+    .slide.active { display: grid; animation: fadeIn .35s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    h1, h2, h3 { font-family: Montserrat, Inter, sans-serif; margin: 0; letter-spacing: -0.04em; line-height: .96; }
+    h1 { font-size: clamp(56px, 8vw, 110px); max-width: 1050px; }
+    h2 { font-size: clamp(42px, 5vw, 74px); max-width: 980px; }
+    h3 { font-size: 30px; }
+    p { margin: 0; line-height: 1.32; font-size: 25px; color: var(--muted); }
+    .kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; letter-spacing: .17em; text-transform: uppercase; font-weight: 800; color: var(--cyan); margin-bottom: 20px; }
+    .kicker::before { content: ""; width: 42px; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+    .accent { color: var(--cyan); } .warn { color: var(--yellow); } .danger { color: var(--red); } .green { color: var(--green); }
+    .hero { grid-template-columns: 1.08fr .92fr; align-items: center; gap: 50px; }
+    .hero .subtitle { margin-top: 24px; font-size: 32px; color: #dce8ef; max-width: 780px; }
+    .quote { margin-top: 36px; padding-left: 24px; border-left: 5px solid var(--cyan); font-size: 25px; color: #fff; max-width: 850px; }
+    .visual { position: relative; min-height: 560px; border-radius: 34px; overflow: hidden; background: linear-gradient(145deg, rgba(33,212,253,.15), rgba(255,255,255,.04)); border: 1px solid rgba(255,255,255,.16); box-shadow: var(--shadow); }
+    .visual::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 45%, rgba(33,212,253,.24), transparent 30%), linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: auto, 42px 42px, 42px 42px; opacity: .9; }
+    .drone { position: absolute; left: 50%; top: 38%; width: 300px; height: 88px; transform: translate(-50%, -50%); filter: drop-shadow(0 30px 35px rgba(0,0,0,.45)); animation: float 4s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translate(-50%, -50%) translateY(0); } 50% { transform: translate(-50%, -50%) translateY(-18px); } }
+    .drone .body { position: absolute; left: 50%; top: 50%; width: 118px; height: 44px; transform: translate(-50%, -50%); border-radius: 22px; background: linear-gradient(180deg, #f2fbff, #7d93a8); }
+    .drone .arm { position: absolute; top: 42px; width: 260px; height: 8px; left: 20px; background: #dbe8f0; border-radius: 999px; }
+    .drone .rotor { position: absolute; width: 92px; height: 92px; border-radius: 50%; border: 3px solid rgba(255,255,255,.55); background: radial-gradient(circle, rgba(33,212,253,.35), transparent 55%); animation: spin .55s linear infinite; }
+    .drone .r1 { left: -6px; top: -2px; } .drone .r2 { right: -6px; top: -2px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .city { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; display: flex; align-items: end; gap: 10px; padding: 0 30px; opacity: .92; }
+    .building { flex: 1; min-width: 28px; border-radius: 10px 10px 0 0; background: linear-gradient(180deg, rgba(33,212,253,.3), rgba(255,255,255,.08)); border: 1px solid rgba(255,255,255,.12); }
+    .topline { position: absolute; top: 28px; left: 72px; right: 72px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: rgba(255,255,255,.62); z-index: 6; }
+    .progress { width: 220px; height: 4px; background: rgba(255,255,255,.16); border-radius: 999px; overflow: hidden; }
+    .progress span { display: block; height: 100%; width: var(--p, 7%); background: linear-gradient(90deg, var(--cyan), var(--yellow)); }
+    .grid2 { grid-template-columns: .95fr 1.05fr; align-items: center; gap: 54px; }
+    .grid3 { grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; margin-top: 36px; }
+    .content { align-self: center; max-width: 1160px; z-index: 2; }
+    .cards, .grid3, .uses, .alerts { display: grid; }
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 34px; }
+    .card { background: var(--panel); border: 1px solid rgba(255,255,255,.16); border-radius: 24px; padding: 26px; box-shadow: 0 12px 32px rgba(0,0,0,.22); backdrop-filter: blur(10px); }
+    .card strong { display: block; font-size: 26px; color: #fff; margin-bottom: 10px; }
+    .card span, .card p { font-size: 21px; color: var(--muted); }
+    .icon { font-size: 38px; margin-bottom: 12px; display: inline-block; }
+    .big-question { font-family: Montserrat, Inter, sans-serif; font-size: clamp(42px, 5vw, 78px); font-weight: 900; letter-spacing: -0.05em; line-height: .98; color: #fff; }
+    .chips { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .chip { border: 1px solid rgba(33,212,253,.35); background: rgba(33,212,253,.09); padding: 12px 16px; border-radius: 999px; font-size: 21px; color: #eaf8ff; }
+    .category { min-height: 440px; display: flex; flex-direction: column; justify-content: space-between; border-top: 7px solid var(--green); }
+    .category.yellow { border-top-color: var(--yellow); } .category.red { border-top-color: var(--red); }
+    .category h3 { margin-bottom: 18px; }
+    .category ul, .mini-list { margin: 0; padding-left: 22px; color: var(--muted); font-size: 22px; line-height: 1.35; }
+    .badge { display: inline-flex; width: fit-content; padding: 9px 13px; border-radius: 999px; font-weight: 800; color: #061421; background: var(--green); margin-bottom: 18px; }
+    .badge.yellow { background: var(--yellow); } .badge.red { background: var(--red); color: #fff; }
+    .uses { grid-template-columns: repeat(5, 1fr); gap: 18px; margin-top: 38px; }
+    .use { min-height: 270px; padding: 24px; border-radius: 28px; background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.05)); border: 1px solid rgba(255,255,255,.14); }
+    .use b { display:block; font-size: 22px; margin-bottom: 12px; color: #fff; } .use span { font-size: 18px; color: var(--muted); line-height: 1.32; }
+    .split-visual { position: relative; height: 500px; border-radius: 32px; background: linear-gradient(150deg, rgba(33,212,253,.12), rgba(255,255,255,.06)); border: 1px solid rgba(255,255,255,.15); box-shadow: var(--shadow); overflow: hidden; }
+    .radar { position: absolute; width: 390px; height: 390px; border-radius: 50%; border: 2px solid rgba(33,212,253,.28); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    .radar::before, .radar::after { content:""; position:absolute; border-radius:50%; border:2px solid rgba(33,212,253,.18); inset: 70px; }
+    .radar::after { inset: 140px; }
+    .sweep { position:absolute; left:50%; top:50%; width: 190px; height: 190px; transform-origin: left top; background: linear-gradient(45deg, rgba(33,212,253,.45), transparent 70%); clip-path: polygon(0 0, 100% 0, 0 100%); animation: sweep 4s linear infinite; }
+    @keyframes sweep { to { transform: rotate(360deg); } }
+    .law-scale { position: absolute; left: 50%; top: 51%; transform: translate(-50%, -50%); font-size: 116px; filter: drop-shadow(0 18px 22px rgba(0,0,0,.45)); }
+    .timeline { margin-top: 44px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .step { position: relative; padding: 26px; border-radius: 26px; background: var(--panel); border: 1px solid rgba(255,255,255,.16); min-height: 210px; }
+    .step::before { content: attr(data-n); position: absolute; right: 22px; top: 18px; font-family: Montserrat; font-size: 56px; font-weight: 900; color: rgba(33,212,253,.22); }
+    .step b { display: block; font-size: 25px; margin-bottom: 12px; } .step span { color: var(--muted); font-size: 20px; line-height: 1.35; }
+    .alert-layout { grid-template-columns: 1fr 1fr; gap: 42px; align-items: center; }
+    .alert-card { border-left: 7px solid var(--yellow); padding: 32px; border-radius: 26px; background: rgba(255,255,255,.09); border-top: 1px solid rgba(255,255,255,.15); border-right: 1px solid rgba(255,255,255,.15); border-bottom: 1px solid rgba(255,255,255,.15); }
+    .alert-card.redline { border-left-color: var(--red); } .alert-card.cyanline { border-left-color: var(--cyan); }
+    .alert-card p { font-size: 26px; color: #ecf5fa; }
+    .full-center { place-items: center; text-align: center; }
+    .full-center .content { max-width: 1080px; } .full-center p { font-size: 31px; margin-top: 26px; color: #dce8ef; }
+    .footer-note { position: absolute; bottom: 28px; left: 72px; right: 72px; display: flex; justify-content: space-between; color: rgba(255,255,255,.45); font-size: 14px; z-index: 10; }
+    .navhint { position: fixed; right: 24px; bottom: 20px; z-index: 50; color: rgba(255,255,255,.5); font-size: 13px; }
+    .controls { position: fixed; left: 24px; bottom: 18px; display: flex; gap: 10px; z-index: 50; }
+    button { border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.08); color: #fff; border-radius: 999px; padding: 10px 14px; cursor: pointer; backdrop-filter: blur(10px); font-weight: 700; }
+    button:hover { background: rgba(255,255,255,.15); }
+    .speaker { margin-top: 18px; font-size: 18px; color: rgba(255,255,255,.55); }
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .deck { height: auto; min-height: 100vh; }
+      .slide { position: relative; min-height: 100vh; padding: 46px 24px 70px; }
+      .hero, .grid2, .alert-layout { grid-template-columns: 1fr; }
+      .cards, .grid3, .timeline, .uses { grid-template-columns: 1fr; }
+      h1 { font-size: 52px; } h2 { font-size: 42px; }
+      .visual, .split-visual { min-height: 380px; height: 380px; }
+      .topline, .footer-note { left: 24px; right: 24px; }
+      .controls, .navhint { display:none; }
+    }
+    @media print {
+      body { overflow: visible; background: #061421; }
+      .slide { display: grid !important; position: relative; height: 100vh; page-break-after: always; }
+      .controls, .navhint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+    <div class="topline"><span>Drones y Derecho Aeronáutico</span><div class="progress"><span id="bar"></span></div></div>
+    <section class="slide hero active">
+      <div class="content">
+        <div class="kicker">Exposición académica</div><h1>Drones y Derecho Aeronáutico</h1><p class="subtitle">Tecnología, espacio aéreo y nuevos desafíos jurídicos</p><p class="quote">“Cuando una tecnología empieza a volar sobre la vida de las personas, el derecho tiene que aparecer para ordenar ese vuelo.”</p><div class="speaker">Usá esta diapositiva para abrir con una idea simple: el dron parece chico, pero jurídicamente es enorme.</div>
+      </div>
+      <div class="visual"><div class="drone"><div class="arm"></div><div class="rotor r1"></div><div class="rotor r2"></div><div class="body"></div></div><div class="city"><div class="building" style="height:90px"></div><div class="building" style="height:140px"></div><div class="building" style="height:70px"></div><div class="building" style="height:155px"></div><div class="building" style="height:110px"></div><div class="building" style="height:130px"></div><div class="building" style="height:85px"></div></div></div>
+    </section>
+    <section class="slide grid2"><div class="content"><div class="kicker">Introducción</div><h2>La tecnología corre.<br><span class="accent">El derecho responde.</span></h2><p class="quote">“No puede resolverse un problema pensando de la misma forma que cuando fue creado.”</p></div><div class="cards"><div class="card"><span class="icon">🤖</span><strong>Inteligencia artificial</strong><span>Nuevas decisiones, nuevos controles.</span></div><div class="card"><span class="icon">📱</span><strong>Redes sociales</strong><span>Datos, imagen, privacidad y reputación.</span></div><div class="card"><span class="icon">₿</span><strong>Criptomonedas</strong><span>Innovación primero, regulación después.</span></div><div class="card"><span class="icon">🚁</span><strong>Drones</strong><span>Ya no son solo tecnología: también son riesgo jurídico.</span></div></div></section>
+    <section class="slide full-center"><div class="content"><div class="kicker">Pregunta disparadora</div><div class="big-question">¿Por qué hablar de drones?</div><div class="chips"><span class="chip">¿Hasta dónde pueden volar?</span><span class="chip">¿Pueden filmar?</span><span class="chip">¿Quién los controla?</span><span class="chip">¿Quién responde por daños?</span><span class="chip">¿Afectan privacidad?</span><span class="chip">¿Interfieren con la seguridad aérea?</span></div></div></section>
+    <section class="slide grid2"><div class="content"><div class="kicker">Concepto técnico</div><h2>El dron no es solo<br><span class="accent">el aparato que vuela</span></h2><p class="quote">Jurídicamente importa el sistema: operador, estación de control, enlace, finalidad, espacio aéreo y riesgo de la operación.</p></div><div class="cards"><div class="card"><strong>Dron</strong><span>Nombre común y cotidiano.</span></div><div class="card"><strong>RPA</strong><span>Aeronave Pilotada a Distancia.</span></div><div class="card"><strong>RPAS</strong><span>Sistema de Aeronave Pilotada a Distancia.</span></div><div class="card"><strong>Clave jurídica</strong><span>No mirar solo el peso: mirar el riesgo.</span></div></div></section>
+    <section class="slide"><div class="content"><div class="kicker">Normativa argentina</div><h2>ANAC 550/2025:<br><span class="accent">nuevo enfoque regulatorio</span></h2><p style="margin-top:22px; max-width:960px;">La regulación adopta la terminología RPA/RPAS y ordena las operaciones por categorías y niveles de riesgo.</p><div class="timeline"><div class="step" data-n="1"><b>Antes</b><span>Distinciones por tamaño y uso recreativo/no recreativo.</span></div><div class="step" data-n="2"><b>Transición</b><span>Conceptos técnicos: operador, piloto remoto, visibilidad, autorización y espacio aéreo.</span></div><div class="step" data-n="3"><b>Ahora</b><span>Categorías abierta, específica y certificada según riesgo operacional.</span></div></div></div></section>
+    <section class="slide"><div class="content"><div class="kicker">Categorías de operación</div><h2>Un esquema tipo <span class="accent">semáforo jurídico</span></h2><div class="grid3"><div class="card category"><div><span class="badge">Abierta</span><h3>Bajo riesgo</h3><ul><li>Regla: sin autorización previa</li><li>Hasta 122 metros</li><li>Menos de 25 kg</li><li>Uso simple o recreativo</li></ul></div><p class="green">Más simple, pero no sin responsabilidad.</p></div><div class="card category yellow"><div><span class="badge yellow">Específica</span><h3>Mayor riesgo</h3><ul><li>Vuelos urbanos o nocturnos</li><li>Más allá de línea visual</li><li>Autorización, registro y licencia</li><li>Más control operativo</li></ul></div><p class="warn">El contexto aumenta la exigencia.</p></div><div class="card category red"><div><span class="badge red">Certificada</span><h3>Alta complejidad</h3><ul><li>Gran porte</li><li>Movilidad aérea urbana</li><li>Régimen cercano a aviación tradicional</li><li>Certificación técnica</li></ul></div><p class="danger">Más riesgo, más regulación.</p></div></div></div></section>
+    <section class="slide"><div class="content"><div class="kicker">Usos actuales</div><h2>De tecnología militar a<br><span class="accent">herramienta cotidiana</span></h2><div class="uses"><div class="use"><span class="icon">🌾</span><b>Producción</b><span>Agricultura, ganadería, minería e industria.</span></div><div class="use"><span class="icon">🌎</span><b>Ambiente</b><span>Monitoreo, incendios, erosión y cuencas.</span></div><div class="use"><span class="icon">🏙️</span><b>Políticas públicas</b><span>Seguridad, emergencias, logística y smart cities.</span></div><div class="use"><span class="icon">🎥</span><b>Cultura y medios</b><span>Cine, eventos, deportes, turismo y narrativas visuales.</span></div><div class="use"><span class="icon">🎓</span><b>Ciencia</b><span>Formación, investigación, startups y servicios tecnológicos.</span></div></div></div></section>
+    <section class="slide grid2"><div class="content"><div class="kicker">Derecho Aeronáutico</div><h2>Si vuela, usa<br><span class="accent">espacio aéreo</span></h2><p class="quote">No conviene tratarlo exactamente igual que a un avión, pero tampoco como un simple juguete.</p></div><div class="split-visual"><div class="radar"></div><div class="sweep"></div><div class="law-scale">⚖️</div></div></section>
+    <section class="slide alert-layout"><div class="content"><div class="kicker">Alerta jurídica 1</div><h2>Seguridad<br><span class="warn">operacional</span></h2><p style="margin-top:24px;">El dron puede convertirse en un obstáculo dentro del sistema aéreo.</p></div><div class="alert-card"><p>Puede interferir con aviones, helicópteros, vuelos sanitarios, vuelos comerciales o emergencias.</p><ul class="mini-list" style="margin-top:20px;"><li>Aeropuertos</li><li>Aeródromos</li><li>Rutas aéreas</li><li>Espacios controlados</li><li>Zonas de emergencia</li></ul></div></section>
+    <section class="slide alert-layout"><div class="content"><div class="kicker">Alerta jurídica 2</div><h2>Responsabilidad<br><span class="danger">por daños</span></h2><p class="quote">“La pregunta no es solo si el dron puede volar, sino quién se hace cargo si ese vuelo causa un daño.”</p></div><div class="cards"><div class="card"><span class="icon">👤</span><strong>Operador</strong><span>Quien lo maneja.</span></div><div class="card"><span class="icon">🧾</span><strong>Propietario</strong><span>Quien lo registra o posee.</span></div><div class="card"><span class="icon">🏢</span><strong>Explotador</strong><span>Quien organiza la actividad.</span></div><div class="card"><span class="icon">🛡️</span><strong>Seguro</strong><span>Clave para proteger a la víctima.</span></div></div></section>
+    <section class="slide grid2"><div class="content"><div class="kicker">Alerta jurídica 3</div><h2>Privacidad e<br><span class="accent">intimidad</span></h2><p class="quote">El dron no solo vuela: también mira, graba, fotografía y transmite imágenes.</p></div><div class="cards"><div class="card"><span class="icon">🏠</span><strong>Domicilio</strong><span>El patio o la terraza no son espacio público.</span></div><div class="card"><span class="icon">🔒</span><strong>Privacidad</strong><span>No todo lo visible desde arriba debería ser jurídicamente accesible.</span></div><div class="card"><span class="icon">📷</span><strong>Imagen</strong><span>Captación, grabación y difusión.</span></div><div class="card"><span class="icon">⚖️</span><strong>Garantías</strong><span>La tecnología no puede esquivar límites constitucionales.</span></div></div></section>
+    <section class="slide grid2"><div class="content"><div class="kicker">Caso jurisprudencial</div><h2>Caso Sandoval:<br><span class="accent">dron e investigación penal</span></h2><p style="margin-top:24px;">Se discutió el uso de un dron por fuerzas de seguridad para captar imágenes aéreas de un domicilio.</p></div><div class="alert-card cyanline"><p>Si el dron permite ver lo que normalmente no podría verse desde la vía pública, se requiere control judicial claro y específico.</p><p class="quote" style="margin-top:26px; font-size:24px;">“El Estado puede usar tecnología para investigar, pero no puede hacerlo de cualquier manera.”</p></div></section>
+    <section class="slide alert-layout"><div class="content"><div class="kicker">Alerta jurídica 5</div><h2>Vacíos legales y<br><span class="warn">velocidad tecnológica</span></h2><p style="margin-top:24px;">El derecho no solo debe mirar el dron actual, sino el que viene.</p></div><div class="cards"><div class="card"><span class="icon">🧠</span><strong>Drones autónomos</strong><span>Decisiones automatizadas e inteligencia artificial.</span></div><div class="card"><span class="icon">📦</span><strong>Reparto aéreo</strong><span>Logística, consumo y circulación urbana.</span></div><div class="card"><span class="icon">🚕</span><strong>Movilidad aérea</strong><span>Nuevas formas de transporte urbano.</span></div><div class="card"><span class="icon">📡</span><strong>Vigilancia</strong><span>Control automatizado y protección de derechos.</span></div></div></section>
+    <section class="slide full-center"><div class="content"><div class="kicker">Cierre final</div><h2>Regular no es frenar.<br><span class="accent">Es ordenar el vuelo.</span></h2><p>El desafío jurídico no es prohibir los drones ni tenerle miedo a la tecnología. Es permitir su desarrollo sin descuidar la seguridad operacional, la privacidad, la responsabilidad por daños y la identificación de quienes los operan.</p></div></section>
+    <div class="footer-note"><span id="count">1 / 14</span><span>Usar ← → o espacio para avanzar</span></div>
+  </div>
+  <div class="controls"><button onclick="prevSlide()">← Anterior</button><button onclick="nextSlide()">Siguiente →</button></div>
+  <div class="navhint">F11 para pantalla completa</div>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const bar = document.getElementById('bar');
+    const count = document.getElementById('count');
+    let index = 0;
+    function showSlide(i) {
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      slides.forEach((slide, n) => slide.classList.toggle('active', n === index));
+      bar.style.setProperty('--p', `${((index + 1) / slides.length) * 100}%`);
+      count.textContent = `${index + 1} / ${slides.length}`;
+      location.hash = `slide-${index + 1}`;
+    }
+    function nextSlide() { showSlide(index + 1); }
+    function prevSlide() { showSlide(index - 1); }
+    document.addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'PageDown', ' '].includes(e.key)) nextSlide();
+      if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) prevSlide();
+      if (e.key === 'Home') showSlide(0);
+      if (e.key === 'End') showSlide(slides.length - 1);
+    });
+    const hashMatch = location.hash.match(/slide-(\d+)/);
+    if (hashMatch) showSlide(Number(hashMatch[1]) - 1);
+    else showSlide(0);
+  </script>
+</body>
+</html>
